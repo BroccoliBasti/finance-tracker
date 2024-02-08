@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto max-w-4xl">
+    <div class="container mx-auto max-w-4xl selection:bg-green-700 selection:text-zinc-50">
         <AppHeader />
         <main class="my-10">
             <slot />
