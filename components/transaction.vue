@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-2 py-4 border-b border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-300">
+    <div class="grid grid-cols-2 py-4 border-b border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-1">
                 <UIcon name="i-heroicons-arrow-up-right" class="text-green-600" />
@@ -34,7 +34,7 @@ const items = [
         {
             label: 'Delete',
             icon: 'i-heroicons-trash-20-solid',
-            click: () => console.log('Delete ')
+            click: () => console.log('Delete')
         },
     ]
 ];
