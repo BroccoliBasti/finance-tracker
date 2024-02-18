@@ -1,6 +1,6 @@
 <template>
-    <div class="grid grid-cols-2 py-4 border-b border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
-        <div class="flex items-center justify-between">
+    <div class="grid grid-cols-3 py-4 border-b border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
+        <div class="flex items-center justify-between space-x-4 cols-span-2">
             <div class="flex items-center space-x-1">
                 <UIcon :name="icon" :class="[iconColor]" />
                 <div>{{ transaction.description }}</div>
@@ -60,7 +60,7 @@ const deleteTransaction = async () => {
     } catch (error) {
         toast.add({
             title: 'Transaction deleted',
-            icon: 'i-heroicons-check-circle',
+            icon: 'i-heroicons-exclamation-circle',
             color: 'red'
         });
     } finally {
