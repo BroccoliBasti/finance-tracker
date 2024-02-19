@@ -2,10 +2,11 @@ import {
   startOfYear,
   endOfYear,
   sub,
-  startOfMonth,
-  endOfMonth,
   startOfDay,
   endOfDay,
+  startOfMonth,
+  endOfMonth,
+  endOfYesterday,
 } from "date-fns";
 
 export const useSelectedTimePeriod = (period) => {
@@ -14,20 +15,21 @@ export const useSelectedTimePeriod = (period) => {
       case "Yearly":
         return {
           from: startOfYear(new Date()),
-          to: new Date(),
+          to: endOfYear(new Date()),
         };
       case "Monthly":
         return {
           from: startOfMonth(new Date()),
-          to: new Date(),
+          to: endOfMonth(new Date()),
         };
       case "Daily":
         return {
           from: startOfDay(new Date()),
-          to: new Date(),
+          to: endOfDay(new Date()),
         };
     }
   });
+
   const previous = computed(() => {
     switch (period.value) {
       case "Yearly":
@@ -47,5 +49,6 @@ export const useSelectedTimePeriod = (period) => {
         };
     }
   });
+
   return { current, previous };
 };

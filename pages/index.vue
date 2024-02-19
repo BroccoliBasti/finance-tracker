@@ -57,9 +57,11 @@ const { pending, refresh, transactions: {
     byDate
   }
 } } = useFetchTransactions(current);
+await refresh();
 
-const { transactions: {
+const { refresh: refreshPrevious, transactions: {
   incomeTotal: prevIncomeTotal,
   expenseTotal: prevExpenseTotal,
 } } = useFetchTransactions(previous);
+await refreshPrevious();
 </script>  
