@@ -1,6 +1,5 @@
-export const useFetchTransactions = () => {
+export const useFetchTransactions = (period) => {
   const supabase = useSupabaseClient();
-
   const transactions = ref([]);
   const pending = ref(false);
 
@@ -17,7 +16,6 @@ export const useFetchTransactions = () => {
   const incomeTotal = computed(() =>
     income.value.reduce((sum, transaction) => sum + transaction.amount, 0)
   );
-
   const expenseTotal = computed(() =>
     expense.value.reduce((sum, transaction) => sum + transaction.amount, 0)
   );
@@ -25,16 +23,21 @@ export const useFetchTransactions = () => {
   const fetchTransactions = async () => {
     pending.value = true;
     try {
-      const { data } = await useAsyncData("transactions", async () => {
-        const { data, error } = await supabase
-          .from("transactions")
-          .select()
-          .order("created_at", { ascending: false });
+      const { data } = await useAsyncData(
+        `transactions-${period.value.from.toDateString()}-${period.value.to.toDateString()}`,
+        async () => {
+          const { data, error } = await supabase
+            .from("transactions")
+            .select()
+            .gte("created_at", period.value.from.toISOString())
+            .lte("created_at", period.value.to.toISOString())
+            .order("created_at", { ascending: false });
 
-        if (error) return [];
+          if (error) return [];
 
-        return data;
-      });
+          return data;
+        }
+      );
 
       return data.value;
     } finally {
@@ -43,6 +46,8 @@ export const useFetchTransactions = () => {
   };
 
   const refresh = async () => (transactions.value = await fetchTransactions());
+
+  watch(period, async () => await refresh(), { immediate: true });
 
   const transactionsGroupedByDate = computed(() => {
     let grouped = {};
@@ -56,7 +61,6 @@ export const useFetchTransactions = () => {
 
       grouped[date].push(transaction);
     }
-
     // const sortedKeys = Object.keys((grouped).sort().reverse());
     // const sortedGrouped = {};
 
