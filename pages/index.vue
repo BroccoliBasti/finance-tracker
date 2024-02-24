@@ -40,12 +40,14 @@
 </template>
 
 <script setup>
-import { useSelectedTimePeriod } from '~/composables/useSelectedTimePeriod';
 import { transactionViewOptions } from '~/constants';
 
-const selectedView = ref(transactionViewOptions[1]);
-const isOpen = ref(false);
+const user = useSupabaseUser();
 
+// The view is set according to user preference, with 'Monthly' being default
+const selectedView = ref(user.value.user_metadata?.trasaction_view ?? transactionViewOptions[1]);
+
+const isOpen = ref(false);
 const { current, previous } = useSelectedTimePeriod(selectedView);
 
 const { pending, refresh, transactions: {

@@ -1,7 +1,9 @@
 <template>
-    <header class="flex justify-between items-center">
-        <NuxtLink to="/" class="text-xl font-bold text-green-400">Finance Tracker</NuxtLink>
-        <div class="mt-2">
+    <header class="flex justify-between items-center mt-10">
+        <NuxtLink to="/" class="text-xl font-bold">
+            Finance Tracker
+        </NuxtLink>
+        <div>
             <UDropdown :items="items" :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }" v-if="user">
                 <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" alt="Avatar" />
 
@@ -25,7 +27,7 @@
         </div>
     </header>
 </template>
-
+  
 <script setup>
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
@@ -36,11 +38,11 @@ const items = [
     }], [{
         label: 'Settings',
         icon: 'i-heroicons-cog-8-tooth',
-        onClick: () => console.log('Link to settings in the future')
+        click: () => navigateTo('/settings/profile')
     }, {
         label: 'Sign out',
         icon: 'i-heroicons-arrow-left-on-rectangle',
-        onClick: async () => {
+        click: async () => {
             await supabase.auth.signOut();
             return navigateTo('/login');
         }
