@@ -9,7 +9,8 @@
                 help="You will receive an email with the confirmation link">
                 <UInput type="email" placeholder="Email" required v-model="email" />
 
-                <UButton type="submit" variant="solid" color="black" class="mt-4" :loading="pending" :disabled="pending">
+                <UButton type="submit" variant="solid" color="black" class="mt-4" :loading="pending"
+                    :disabled="pending">
                     Sign in</UButton>
             </UFormGroup>
         </form>
@@ -34,6 +35,7 @@ const email = ref('');
 const pending = ref(false);
 const { toastError } = useAppToast();
 const supabase = useSupabaseClient();
+const redirectUrl = useRuntimeConfig().public.baseUrl;
 
 useRedirectIfAuthenticated();
 
@@ -43,7 +45,7 @@ const handleLogin = async () => {
         const { error } = await supabase.auth.signInWithOtp({
             email: email.value,
             options: {
-                emailRedirectTo: 'http://localhost:3000/confirm'
+                emailRedirectTo: `${redirectUrl}/confirm`
             }
         });
 

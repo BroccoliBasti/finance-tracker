@@ -22,7 +22,7 @@
 //         }
 //     ]
 // })
-</script>bg-z
+</script>
 <style>
 /* Set the font family for the entire site */
 body {

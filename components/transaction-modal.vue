@@ -39,12 +39,12 @@ import { z } from 'zod';
 
 const props = defineProps({
   modelValue: Boolean,
-  transacion: {
+  transaction: {
     type: Object,
     required: false
   }
 });
-const isEditing = computed(() => !!props.transacion);
+const isEditing = computed(() => !!props.transaction);
 const emit = defineEmits(['update:modelValue', 'saved']);
 
 const defaultSchema = z.object({
@@ -88,7 +88,7 @@ const save = async () => {
     const { error } = await supabase.from('transactions')
       .upsert({
         ...state.value,
-        id: props.transacion?.id
+        id: props.transaction?.id
       });
 
     if (!error) {
@@ -111,7 +111,13 @@ const save = async () => {
   }
 };
 
-const initialState = {
+const initialState = isEditing.value ? {
+  type: props.transaction.type,
+  amount: props.transaction.amount,
+  created_at: props.transaction.created_at.split('T')[0],
+  description: props.transaction.description,
+  category: props.transaction.category,
+} : {
   type: undefined,
   amount: 0,
   created_at: undefined,
@@ -119,13 +125,7 @@ const initialState = {
   category: undefined,
 };
 
-const state = ref(isEditing.value ? {
-  type: props.transaction.type,
-  amount: props.transacion.amount,
-  created_at: props.transaction.created_at.split('T')[0],
-  description: props.transaction.description,
-  category: props.transaction.category,
-} : { ...initialState });
+const state = ref({ ...initialState });
 
 const resetForm = () => {
   Object.assign(state.value, initialState);
